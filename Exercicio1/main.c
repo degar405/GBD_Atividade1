@@ -1,73 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "informacoes_linha.c"
 
-int formataLinha(char *pLinha, char *pLinhaFormatada){
-    char *pInicioUF;
-    char *pInicioCidade;
-    char *pInicioLogradouro;
-    char *pFinalLinha;
-
-    pFinalLinha = memchr(pLinha, 10, strlen(pLinha));
-    if(pLinha[(pFinalLinha - 1) - pLinha] == '\t'){
-        pLinha[(pFinalLinha - 1) - pLinha] = '\n';
-        pLinha[pFinalLinha - pLinha] = '\0';
-    }
-
-    pInicioUF = memchr(pLinha, 9, strlen(pLinha)) + 1;
-    pInicioCidade = memchr(pInicioUF, 9, strlen(pInicioUF)) + 1;
-    pInicioLogradouro = memchr(pInicioCidade, 9, strlen(pInicioCidade));
-    if (pInicioLogradouro != NULL)
-        pInicioLogradouro++;
-    pFinalLinha = memchr(pLinha, 10, strlen(pLinha));
-
-    int tamanhoCep = (pInicioUF - 1) - pLinha;
-    int tamanhoUF = (pInicioCidade - 1) - pInicioUF;
-    int tamanhoCidade;
-    int tamanhoLogradouro;
-    if (pInicioLogradouro != NULL){
-        tamanhoCidade = (pInicioLogradouro - 1) - pInicioCidade;
-        tamanhoLogradouro = pFinalLinha - pInicioLogradouro;
-    } else {
-        tamanhoCidade = pFinalLinha - pInicioCidade;
-        tamanhoLogradouro = 0;
-    }
-
-    char cep[tamanhoCep + 1];
-    char uf[tamanhoUF + 1];
-    char cidade[tamanhoCidade + 1];
-    char logradouro[tamanhoLogradouro + 1];
-
-    memcpy(cep, pLinha, tamanhoCep);
-    memcpy(uf, pInicioUF, tamanhoUF);
-    memcpy(cidade, pInicioCidade, tamanhoCidade);
-    if (pInicioLogradouro != NULL)
-        memcpy(logradouro, pInicioLogradouro, tamanhoLogradouro);
-
-    cep[tamanhoCep] = '\0';
-    uf[tamanhoUF] = '\0';
-    cidade[tamanhoCidade] = '\0';
-    logradouro[tamanhoLogradouro] = '\0';
-
+void criaLinhaFormatada(char *pLinhaFormatada, Info_linha *info){
     char separador[2] = "|";
     char quebraDeLinha[2] = {'\n', '\0'};
     char linhaFormatada[121] = "";
 
-    strcat(linhaFormatada, logradouro);
+    strcat(linhaFormatada, info->logradouro);
     strcat(linhaFormatada, separador);
-    strcat(linhaFormatada, cidade);
+    strcat(linhaFormatada, info->cidade);
     strcat(linhaFormatada, separador);
-    strcat(linhaFormatada, uf);
+    strcat(linhaFormatada, info->uf);
     strcat(linhaFormatada, separador);
-    strcat(linhaFormatada, cep);
+    strcat(linhaFormatada, info->cep);
     strcat(linhaFormatada, quebraDeLinha);
 
     strcpy(pLinhaFormatada, linhaFormatada);
 
-    if (pInicioLogradouro != NULL)
-        return 1;
-
-    return 0;
+    return;
 }
 
 void criaArquivoFormatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
@@ -88,22 +40,30 @@ void criaArquivoFormatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
     }
 
     char *pLinhaOriginal = (char *) malloc(121 * sizeof(char));
+    Info_linha *dadosLinha = malloc(sizeof(Info_linha));
     char *pLinhaFormatada = (char *) malloc(121 * sizeof(char));
+
     while(1){
         pLinhaOriginal = fgets(pLinhaOriginal, 121, arquivoOriginal);
         if(feof(arquivoOriginal))
             break;
-        formataLinha(pLinhaOriginal, pLinhaFormatada);
-        //printf("%s", pLinhaFormatada);
+
+        extrair_informacoes_linha(dadosLinha, pLinhaOriginal);
+        if(dadosLinha->cep[0] == '\0')
+            continue;
+        criaLinhaFormatada(pLinhaFormatada, dadosLinha);
         fputs(pLinhaFormatada, arquivoNovo);
         fflush(arquivoNovo);
     }
 
-    char teste[15] = "Terminou!";
-    fputs(teste, arquivoNovo);
-
     fclose(arquivoOriginal);
     fclose(arquivoNovo);
+
+    free(pLinhaOriginal);
+    free(dadosLinha);
+    free(pLinhaFormatada);
+
+    return;
 }
 
 int main()
@@ -115,3 +75,4 @@ int main()
 
     return 0;
 }
+

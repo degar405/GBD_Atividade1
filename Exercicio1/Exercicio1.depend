@@ -1,6 +1,11 @@
 # depslib dependency file v1.0
-1616077671 source:f:\faculdade\aare1\gbd\atividade 1\exercicio1\main.c
+1616189847 source:f:\faculdade\aare1\gbd\atividade 1\exercicio1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	"informacoes_linha.c"
+
+1616156382 f:\faculdade\aare1\gbd\atividade 1\exercicio1\informacoes_linha.c
+	<stdlib.h>
+	<stdlib.h>
 
