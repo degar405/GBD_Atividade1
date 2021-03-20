@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1616279044 source:f:\faculdade\aare1\gbd\atividade 1\exercicio2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"formatacao_arquivo.h"
+	"busca_sequencial.h"
+
+1616279835 f:\faculdade\aare1\gbd\atividade 1\exercicio2\formatacao_arquivo.h
+
+1616279839 f:\faculdade\aare1\gbd\atividade 1\exercicio2\busca_sequencial.h
+
+1616279208 source:f:\faculdade\aare1\gbd\atividade 1\exercicio2\busca_sequencial.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"busca_sequencial.h"
+
+1616279109 source:f:\faculdade\aare1\gbd\atividade 1\exercicio2\formatacao_arquivo.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"formatacao_arquivo.h"
+
