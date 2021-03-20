@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "informacoes_linha.c"
+#include "busca_sequencial.c"
 
 void criaLinhaFormatada(char *pLinhaFormatada, Info_linha *info){
     char separador[2] = "|";
@@ -40,7 +41,7 @@ void criaArquivoFormatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
     }
 
     char *pLinhaOriginal = (char *) malloc(121 * sizeof(char));
-    Info_linha *dadosLinha = malloc(sizeof(Info_linha));
+    Info_linha *dadosLinha = (Info_linha *) malloc(sizeof(Info_linha));
     char *pLinhaFormatada = (char *) malloc(121 * sizeof(char));
 
     while(1){
@@ -72,6 +73,8 @@ int main()
     char nomeNovoArquivo[20] = "cepFormatado.txt";
 
     criaArquivoFormatado(nomeArquivoOriginal, nomeNovoArquivo);
+
+    menu_busca_sequencial(nomeNovoArquivo);
 
     return 0;
 }

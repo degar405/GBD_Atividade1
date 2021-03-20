@@ -1,11 +1,17 @@
 # depslib dependency file v1.0
-1616189847 source:f:\faculdade\aare1\gbd\atividade 1\exercicio1\main.c
+1616272453 source:f:\faculdade\aare1\gbd\atividade 1\exercicio1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"informacoes_linha.c"
+	"busca_sequencial.c"
 
-1616156382 f:\faculdade\aare1\gbd\atividade 1\exercicio1\informacoes_linha.c
+1616190245 f:\faculdade\aare1\gbd\atividade 1\exercicio1\informacoes_linha.c
 	<stdlib.h>
+	<string.h>
+
+1616276065 f:\faculdade\aare1\gbd\atividade 1\exercicio1\busca_sequencial.c
+	<stdio.h>
 	<stdlib.h>
+	<string.h>
 
