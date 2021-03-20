@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../Exercicio1" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,8 +36,13 @@
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="informacoes_linha.c">
+		<Unit filename="busca_sequencial.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="formatacao_arquivo.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="formatacao_arquivo.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="main.c">
