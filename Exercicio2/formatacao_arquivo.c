@@ -3,8 +3,10 @@
 #include <string.h>
 #include "formatacao_arquivo.h"
 
+#define TAMANHO_LINHA_ARQUIVO_FORMATADO 121
+
 typedef struct informacoes_linha {
-    char cep[9];
+    int cep;
     char uf[31];
     char cidade[39];
     char logradouro[67];
@@ -16,9 +18,11 @@ void extrair_informacoes_linha(Info_linha *dest, char *pLinha){
     char *pInicioLogradouro;
     char *pFinalLinha;
 
+    char cepAux[9];
+
     pFinalLinha = memchr(pLinha, 10, strlen(pLinha));
     if(pFinalLinha == NULL || pFinalLinha == pLinha){
-        dest->cep[0] = '\0';
+        dest->cep = 0;
         dest->uf[0] = '\0';
         dest->cidade[0] = '\0';
         dest->logradouro[0] = '\0';
@@ -50,13 +54,14 @@ void extrair_informacoes_linha(Info_linha *dest, char *pLinha){
 
     //TODO: VALIDAÇÃO DO TAMANHO MÁXIMO DE CADA CAMPO
 
-    memcpy(dest->cep, pLinha, tamanhoCep);
+    memcpy(cepAux, pLinha, tamanhoCep);
     memcpy(dest->uf, pInicioUF, tamanhoUF);
     memcpy(dest->cidade, pInicioCidade, tamanhoCidade);
     if (pInicioLogradouro != NULL)
         memcpy(dest->logradouro, pInicioLogradouro, tamanhoLogradouro);
 
-    dest->cep[tamanhoCep] = '\0';
+    cepAux[tamanhoCep] = '\0';
+    dest->cep = atoi(cepAux);
     dest->uf[tamanhoUF] = '\0';
     dest->cidade[tamanhoCidade] = '\0';
     dest->logradouro[tamanhoLogradouro] = '\0';
@@ -66,14 +71,36 @@ void cria_linha_formatada(char *pLinhaFormatada, Info_linha *info){
     char separador[2] = "|";
     char quebraDeLinha[2] = {'\n', '\0'};
     char linhaFormatada[121] = "";
+    char cepAux[9];
+    char tamanhoCampo[3];
+    itoa(info->cep, cepAux, 10);
 
+    itoa(strlen(info->logradouro), tamanhoCampo, 10);
+    if(tamanhoCampo[1] == '\0'){
+        tamanhoCampo[2] = tamanhoCampo[1];
+        tamanhoCampo[1] = tamanhoCampo[0];
+        tamanhoCampo[0] = '0';
+    }
+    strcat(linhaFormatada, tamanhoCampo);
     strcat(linhaFormatada, info->logradouro);
-    strcat(linhaFormatada, separador);
+
+    itoa(strlen(info->cidade), tamanhoCampo, 10);
+    if(tamanhoCampo[1] == '\0'){
+        tamanhoCampo[2] = tamanhoCampo[1];
+        tamanhoCampo[1] = tamanhoCampo[0];
+        tamanhoCampo[0] = '0';
+    }
+    strcat(linhaFormatada, tamanhoCampo);
     strcat(linhaFormatada, info->cidade);
-    strcat(linhaFormatada, separador);
+
+    itoa(strlen(info->uf), tamanhoCampo, 10);
+    strcat(linhaFormatada, tamanhoCampo);
     strcat(linhaFormatada, info->uf);
-    strcat(linhaFormatada, separador);
-    strcat(linhaFormatada, info->cep);
+
+    itoa(strlen(cepAux), tamanhoCampo, 10);
+    strcat(linhaFormatada, tamanhoCampo);
+    strcat(linhaFormatada, cepAux);
+
     strcat(linhaFormatada, quebraDeLinha);
 
     strcpy(pLinhaFormatada, linhaFormatada);
@@ -98,20 +125,20 @@ void cria_arquivo_formatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
         exit(1);
     }
 
-    char *pLinhaOriginal = (char *) malloc(121 * sizeof(char));
+    char *pLinhaOriginal = (char *) malloc(TAMANHO_LINHA_ARQUIVO_FORMATADO * sizeof(char));
     Info_linha *dadosLinha = (Info_linha *) malloc(sizeof(Info_linha));
-    char *pLinhaFormatada = (char *) malloc(121 * sizeof(char));
+    char *pLinhaFormatada = (char *) malloc(TAMANHO_LINHA_ARQUIVO_FORMATADO * sizeof(char));
 
     while(1){
-        pLinhaOriginal = fgets(pLinhaOriginal, 121, arquivoOriginal);
+        pLinhaOriginal = fgets(pLinhaOriginal, TAMANHO_LINHA_ARQUIVO_FORMATADO, arquivoOriginal);
         if(feof(arquivoOriginal))
             break;
 
         extrair_informacoes_linha(dadosLinha, pLinhaOriginal);
-        if(dadosLinha->cep[0] == '\0')
+        if(dadosLinha->cep == 0)
             continue;
         cria_linha_formatada(pLinhaFormatada, dadosLinha);
-        fputs(pLinhaFormatada, arquivoNovo);
+        fwrite(pLinhaFormatada, 1, TAMANHO_LINHA_ARQUIVO_FORMATADO, arquivoNovo);
         fflush(arquivoNovo);
     }
 

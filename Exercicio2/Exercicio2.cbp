@@ -31,6 +31,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="busca_sequencial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="busca_sequencial.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="formatacao_arquivo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="formatacao_arquivo.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
