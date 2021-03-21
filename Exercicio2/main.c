@@ -1,3 +1,6 @@
+//Higor Raphael Faria e Sousa - 11811BCC014
+//Leonardo Frangello Franzese - 11721BCC029
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
