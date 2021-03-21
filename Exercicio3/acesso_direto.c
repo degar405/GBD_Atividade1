@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "busca_sequencial.h"
+#include "acesso_direto.h"
 
 int busca_posicao(char *nomeArquivo, int indice){
     FILE *arquivo;

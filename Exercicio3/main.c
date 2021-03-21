@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "formatacao_arquivo.h"
-#include "busca_sequencial.h"
+#include "arquivo_indice.h"
+#include "acesso_direto.h"
 
 int main()
 {

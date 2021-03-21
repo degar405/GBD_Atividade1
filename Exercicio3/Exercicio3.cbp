@@ -31,18 +31,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="busca_sequencial.c">
+		<Unit filename="acesso_direto.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="busca_sequencial.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="formatacao_arquivo.c">
+		<Unit filename="acesso_direto.h" />
+		<Unit filename="arquivo_indice.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="formatacao_arquivo.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="arquivo_indice.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

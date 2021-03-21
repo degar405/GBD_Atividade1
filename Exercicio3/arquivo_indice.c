@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "formatacao_arquivo.h"
+#include "arquivo_indice.h"
 
 void cria_arquivo_de_indices(char *nomeArquivoOriginal, char *nomeNovoArquivo){
     FILE *arquivoOriginal;
