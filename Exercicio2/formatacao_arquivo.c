@@ -3,14 +3,7 @@
 #include <string.h>
 #include "formatacao_arquivo.h"
 
-typedef struct informacoes_linha {
-    int cep;
-    char uf[31];
-    char cidade[39];
-    char logradouro[67];
-} Info_linha;
-
-void extrair_informacoes_linha(Info_linha *dest, char *pLinha){
+void extrair_informacoes_linha(item *dest, char *pLinha){
     char *pInicioUF;
     char *pInicioCidade;
     char *pInicioLogradouro;
@@ -75,7 +68,7 @@ void cria_arquivo_formatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
     }
 
     FILE *arquivoNovo;
-    arquivoNovo = fopen(nomeNovoArquivo, "w");
+    arquivoNovo = fopen(nomeNovoArquivo, "wb");
     if(arquivoNovo == NULL){
         printf("Erro ao abrir o arquivo novo de Ceps para escrita.\n");
         system("pause");
@@ -83,7 +76,7 @@ void cria_arquivo_formatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
     }
 
     char *pLinhaOriginal = (char *) malloc(121 * sizeof(char));
-    Info_linha *dadosLinha = (Info_linha *) malloc(sizeof(Info_linha));
+    item *dadosLinha = (item *) malloc(sizeof(item));
 
     while(1){
         pLinhaOriginal = fgets(pLinhaOriginal, 121, arquivoOriginal);
@@ -93,7 +86,7 @@ void cria_arquivo_formatado(char *nomeArquivoOriginal, char *nomeNovoArquivo){
         extrair_informacoes_linha(dadosLinha, pLinhaOriginal);
         if(dadosLinha->cep == 0)
             continue;
-        fwrite(dadosLinha, sizeof(Info_linha), 1, arquivoNovo);
+        fwrite(dadosLinha, sizeof(item), 1, arquivoNovo);
         fflush(arquivoNovo);
     }
 

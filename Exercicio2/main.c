@@ -11,7 +11,7 @@ int main()
 
     cria_arquivo_formatado(nomeArquivoOriginal, nomeNovoArquivo);
 
-    //menu_busca_sequencial(nomeNovoArquivo);
+    menu_busca_sequencial(nomeNovoArquivo);
 
     return 0;
 }

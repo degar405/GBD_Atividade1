@@ -1,156 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "formatacao_arquivo.h"
 #include "busca_sequencial.h"
-
-int seleciona_logradouro_linha(char *dest, char *linha){
-    char *pFinalLogradouro = memchr(linha, '|', strlen(linha));
-    if(pFinalLogradouro == NULL){
-        printf("Erro ao selecionar logradouro da linha: %s", linha);
-        exit(-1);
-    }
-
-    int tamanhoLogradouro = pFinalLogradouro - linha;
-
-    if(tamanhoLogradouro > 0){
-        memcpy(dest, linha, tamanhoLogradouro);
-        dest[tamanhoLogradouro] = '\0';
-    }
-
-    return tamanhoLogradouro;
-}
-
-void seleciona_cidade_linha(char *dest, char *linha){
-    char *pInicioCidade = memchr(linha, '|', strlen(linha));
-    if(pInicioCidade == NULL){
-        printf("Erro ao selecionar cidade da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioCidade++;
-    char *pFinalCidade = memchr(pInicioCidade, '|', strlen(linha));
-    if(pFinalCidade == NULL){
-        printf("Erro ao selecionar cidade da linha: %s", linha);
-        exit(-1);
-    }
-
-    int tamanhoCidade = pFinalCidade - pInicioCidade;
-    memcpy(dest, pInicioCidade, tamanhoCidade);
-    dest[tamanhoCidade] = '\0';
-}
-
-void seleciona_uf_linha(char *dest, char *linha){
-    char *pInicioCidade = memchr(linha, '|', strlen(linha));
-    if(pInicioCidade == NULL){
-        printf("Erro ao selecionar UF da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioCidade++;
-    char *pInicioUF = memchr(pInicioCidade, '|', strlen(linha));
-    if(pInicioUF == NULL){
-        printf("Erro ao selecionar UF da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioUF++;
-    char *pFinalUF = memchr(pInicioUF, '|', strlen(linha));
-    if(pFinalUF == NULL){
-        printf("Erro ao selecionar UF da linha: %s", linha);
-        exit(-1);
-    }
-
-    int tamanhoUF = pFinalUF - pInicioUF;
-    memcpy(dest, pInicioUF, tamanhoUF);
-    dest[tamanhoUF] = '\0';
-}
-
-void seleciona_cep_linha(char *dest, char *linha){
-    char *pInicioCidade = memchr(linha, '|', strlen(linha));
-    if(pInicioCidade == NULL){
-        printf("Erro ao selecionar CEP da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioCidade++;
-    char *pInicioUF = memchr(pInicioCidade, '|', strlen(linha));
-    if(pInicioUF == NULL){
-        printf("Erro ao selecionar CEP da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioUF++;
-    char *pInicioCEP = memchr(pInicioUF, '|', strlen(linha));
-    if(pInicioCEP == NULL){
-        printf("Erro ao selecionar CEP da linha: %s", linha);
-        exit(-1);
-    }
-    pInicioCEP++;
-    char *pFinalCEP = memchr(pInicioCEP, 10, strlen(linha));
-    if(pFinalCEP == NULL){
-        printf("Erro ao selecionar CEP da linha: %s", linha);
-        exit(-1);
-    }
-
-    int tamanhoCEP = pFinalCEP - pInicioCEP;
-    memcpy(dest, pInicioCEP, tamanhoCEP);
-    dest[tamanhoCEP] = '\0';
-}
-
-void finaliza_execucao_programa(FILE *arquivo, char *pLinha, char *pTextoCampo){
-    printf("Houve um erro durante a execução do programa.\n");
-
-    fclose(arquivo);
-
-    free(pLinha);
-    free(pTextoCampo);
-
-    exit(-1);
-}
 
 void busca_enderecos(int codigoOperacao, char *textoBusca, char *nomeArquivo){
     FILE *arquivo;
-    arquivo = fopen(nomeArquivo, "r");
+    arquivo = fopen(nomeArquivo, "rb");
     if(arquivo == NULL){
         printf("Erro ao abrir o arquivo de CEPs para leitura.\n");
         system("pause");
         exit(1);
     }
 
-    char *pLinha = (char *) malloc(121 * sizeof(char));
+    item *registro = (item *) malloc(sizeof(item));
     char *pTextoCampo = (char *) malloc(70 * sizeof(char));
-    int tamanhoLogradouro;
 
-    while(1){
-        fgets(pLinha, 121, arquivo);
-        if(feof(arquivo))
-            break;
-
-        if(pLinha == NULL || pLinha[0] == '\n')
+    while(fread(registro, sizeof(item), 1, arquivo)){
+        if(registro->cep == 0)
             continue;
 
         switch(codigoOperacao){
         case 1:
-            tamanhoLogradouro = seleciona_logradouro_linha(pTextoCampo, pLinha);
-            if(tamanhoLogradouro == 0)
+            if(registro->logradouro[0] == '\0')
                 continue;
+            strcpy(pTextoCampo, registro->logradouro);
             break;
         case 2:
-            seleciona_cidade_linha(pTextoCampo, pLinha);
+            strcpy(pTextoCampo, registro->cidade);
             break;
         case 3:
-            seleciona_uf_linha(pTextoCampo, pLinha);
+            strcpy(pTextoCampo, registro->uf);
             break;
         case 4:
-            seleciona_cep_linha(pTextoCampo, pLinha);
+            itoa(registro->cep, pTextoCampo, 10);
             break;
         default:
-            finaliza_execucao_programa(arquivo, pLinha, pTextoCampo);
+            printf("Erro ao efetuar busca sequencial.");
+
+            fclose(arquivo);
+
+            free(registro);
+            free(pTextoCampo);
+
+            exit(-1);
         }
 
         if(strstr(pTextoCampo, textoBusca) != NULL){
-            printf("%s", pLinha);
+            printf("%s - %s - %s - %d\n", registro->logradouro, registro->cidade, registro->uf, registro->cep);
         }
     }
 
     fclose(arquivo);
 
-    free(pLinha);
+    free(registro);
     free(pTextoCampo);
 }
 
