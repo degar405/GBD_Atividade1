@@ -31,6 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="busca_por_posicao.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="busca_por_posicao.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="busca_sequencial.c">
 			<Option compilerVar="CC" />
 		</Unit>
