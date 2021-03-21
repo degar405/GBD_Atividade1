@@ -7,6 +7,9 @@
 *.obj
 *.elf
 
+# Generated file
+cepFormatado.bin
+
 # Linker output
 *.ilk
 *.map
