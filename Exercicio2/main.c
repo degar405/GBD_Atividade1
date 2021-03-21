@@ -7,7 +7,7 @@
 int main()
 {
     char nomeArquivoOriginal[20] = "cep.txt";
-    char nomeNovoArquivo[20] = "cepFormatado.txt";
+    char nomeNovoArquivo[20] = "cepFormatado.bin";
 
     cria_arquivo_formatado(nomeArquivoOriginal, nomeNovoArquivo);
 
