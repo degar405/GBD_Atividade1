@@ -1,1 +1,1 @@
-void cria_arquivo_formatado(char *nomeArquivoOriginal, char *nomeNovoArquivo);
+void cria_arquivo_de_indices(char *nomeArquivoOriginal, char *nomeNovoArquivo);

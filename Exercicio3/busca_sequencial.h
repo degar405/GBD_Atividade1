@@ -1,1 +1,1 @@
-void menu_busca_sequencial(char *nomeArquivo);
+void menu_acesso_indexado(char *arquivoCep, char *arquivoIndice);

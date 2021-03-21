@@ -7,11 +7,11 @@
 int main()
 {
     char nomeArquivoOriginal[20] = "cep.txt";
-    char nomeNovoArquivo[20] = "cepFormatado.txt";
+    char nomeNovoArquivo[20] = "indicesCep.bin";
 
-    cria_arquivo_formatado(nomeArquivoOriginal, nomeNovoArquivo);
+    cria_arquivo_de_indices(nomeArquivoOriginal, nomeNovoArquivo);
 
-    menu_busca_sequencial(nomeNovoArquivo);
+    menu_acesso_indexado(nomeArquivoOriginal, nomeNovoArquivo);
 
     return 0;
 }
