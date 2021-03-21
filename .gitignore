@@ -7,8 +7,9 @@
 *.obj
 *.elf
 
-# Generated file
-cepFormatado.bin
+# Generated files
+cepFormatado.*
+indicesCep.bin
 
 # Linker output
 *.ilk
