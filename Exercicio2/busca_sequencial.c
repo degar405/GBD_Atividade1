@@ -68,7 +68,7 @@ void menu_busca_sequencial(char *nomeArquivo){
         "do CEP"
     };
 
-    printf("Bem vindo(a) ao sistema de busca sequencial de enderecos.");
+    printf("\nBem vindo(a) ao sistema de busca sequencial de enderecos.");
     while(1){
         printf("\nEscolha por qual campo deseja realizar a busca. Digite\n");
         printf("1 para Logradouro\n");
